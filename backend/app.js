@@ -1,15 +1,12 @@
 require('dotenv').config();
 const express = require('express');
-
-const app = express();
-
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 
+const stuffRoutes = require('./routes/stuff')
+
 const mongooseUser = process.env.MONGOOSE_USER;
-
 const mongoosePassword = process.env.MONGOOSE_PASSWORD;
-
-const Thing = require('./models/thing');
 
 mongoose.connect(`mongodb+srv://${mongooseUser}:${mongoosePassword}@clustertest.8uwd3.mongodb.net/?retryWrites=true&w=majority`,
     {
@@ -18,6 +15,15 @@ mongoose.connect(`mongodb+srv://${mongooseUser}:${mongoosePassword}@clustertest.
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
+const app = express();
+
+
+
+
+
+
 
 
 //Pour gérer la requête POST venant de l'application front-end, on a besoin d'en extraire le corps JSON.
@@ -29,23 +35,9 @@ app.use((req, res, next) => {
     next();
 });
 
-//POST
-app.post('/api/stuff', (req, res, next) => {
+app.use(bodyParser.json())
 
-    // suppression du faux id envoyé par le frontend
-    delete req.body._id;
-    const thing = new Thing({
-        ...req.body
-    });
-    thing.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
-        .catch(error => res.status(400).json({ error }));
-});
-//GET
-app.use('/api/stuff', (req, res, next) => {
-    Thing.find()
-        .then(things => res.status(200).json(things))
-        .catch(error => res.status(400).json({ error }));
-});
+
+app.use('/api/stuff', stuffRoutes)
 
 module.exports = app;
