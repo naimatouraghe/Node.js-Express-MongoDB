@@ -36,6 +36,14 @@ Tp projet web full-stack
 
 Il s'agit d'un système de sécurité qui, par défaut, bloque les appels HTTP entre des serveurs différents, ce qui empêche donc les requêtes malveillantes d'accéder à des ressources sensibles.
 
-Dans notre cas, nous avons deux origines : localhost:3000 et localhost:4200, et nous souhaiterions qu'elles puissent communiquer entre elles. Pour cela, nous devons ajouter des headers à notre objet response.
+Dans notre cas, nous avons deux origines : localhost:3000 et localhost:4200, et nous souhaiterions qu'elles puissent communiquer entre elles. Pour cela, nous devons ajouter des headers spécifiques de contrôle d'accès doivent être précisés pour tous vos objets de réponse.
 
-- Pour permettre des requêtes cross-origin (et empêcher des erreurs CORS), des headers spécifiques de contrôle d'accès doivent être précisés pour tous vos objets de réponse.
+## Partie 5
+
+En passant votre middleware à app.post() au lieu de app.use() , il répondra uniquement aux requêtes de type POST.
+
+**Veillez à :**
+
+soit modifier la méthode use en get pour le middleware des requêtes GET ;
+
+soit placer la route POST au-dessus du middleware pour les requêtes GET, car la logique GET interceptera actuellement toutes les requêtes envoyées à votre endpoint /api/stuff , étant donné qu'on ne lui a pas indiqué de verbe spécifique. Placer la route POST au-dessus interceptera les requêtes POST, en les empêchant d'atteindre le middleware GET.
