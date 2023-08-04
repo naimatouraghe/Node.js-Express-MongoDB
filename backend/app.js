@@ -1,6 +1,25 @@
+require('dotenv').config();
 const express = require('express');
 
 const app = express();
+
+const mongoose = require('mongoose');
+
+const mongooseUser = process.env.MONGOOSE_USER;
+
+const mongoosePassword = process.env.MONGOOSE_PASSWORD;
+
+
+
+mongoose.connect(`mongodb+srv://${mongooseUser}:${mongoosePassword}@clustertest.8uwd3.mongodb.net/?retryWrites=true&w=majority`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
 //Pour gérer la requête POST venant de l'application front-end, on a besoin d'en extraire le corps JSON.
 app.use(express.json());
 app.use((req, res, next) => {
