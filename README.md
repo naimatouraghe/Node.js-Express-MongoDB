@@ -2,6 +2,9 @@
 
 Tp projet web full-stack
 
+front-end: npm run start
+back-end : nodemon start
+
 ## Partie 1
 
 - Node peut être installé à partir de NodeJS.org.
