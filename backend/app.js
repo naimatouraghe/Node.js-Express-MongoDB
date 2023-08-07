@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 
 const stuffRoutes = require('./routes/stuff')
+const userRoutes = require('./routes/user');
 
 const mongooseUser = process.env.MONGOOSE_USER;
 const mongoosePassword = process.env.MONGOOSE_PASSWORD;
@@ -36,5 +37,5 @@ app.use(bodyParser.json())
 
 
 app.use('/api/stuff', stuffRoutes)
-
+app.use('/api/auth', userRoutes);
 module.exports = app;
